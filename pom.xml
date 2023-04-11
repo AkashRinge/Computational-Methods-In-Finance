@@ -6,6 +6,9 @@
   <name>Computational-Methods-In-Finance</name>
   <description>Project contains Box Muller methods, monte carlo simulations, stochastic process, discretization schemes, binomial and trinomial option pricing models, jump diffusion processes, finite and partial differencing methods, interest rate models, and valuation of MBS. </description>
   
+  <properties>
+  	<java.version>16</java.version>
+  </properties>
   <dependencies>
   	<dependency>
   		<groupId>org.projectlombok</groupId>

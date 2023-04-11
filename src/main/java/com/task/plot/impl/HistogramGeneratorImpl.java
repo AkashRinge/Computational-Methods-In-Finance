@@ -14,16 +14,23 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYBarPainter;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.statistics.HistogramDataset;
+import org.springframework.stereotype.Component;
 
 import com.task.api.PlotGeneratorAPI;
 import com.task.plot.impl.context.HistContext;
 
+import lombok.AllArgsConstructor;
+
+@Component
+@AllArgsConstructor
 public class HistogramGeneratorImpl implements PlotGeneratorAPI<HistContext>{
 
+	private JFrame jFrame;
+	
     public void plot(HistContext ctx) {
 
     	String chartTitle = ctx.getChartTitle();
-    	String applicationTitle = ctx.getApplicationTitle();
+    	jFrame.setTitle(ctx.getApplicationTitle());
     	double[] data = ctx.getData();
     	int numBins = ctx.getNumBins();
     	
@@ -41,12 +48,8 @@ public class HistogramGeneratorImpl implements PlotGeneratorAPI<HistContext>{
         renderer.setDrawBarOutline(false);
         renderer.setBarPainter(new StandardXYBarPainter());
 
-        JFrame frame = new JFrame(applicationTitle);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-
         ChartPanel chartPanel = new ChartPanel(chart);
-        frame.setContentPane(chartPanel);
-        frame.setVisible(true);
+        jFrame.setContentPane(chartPanel);
+        jFrame.setVisible(true);
     }
 }

@@ -11,15 +11,17 @@ public class LgmRandomGeneratorImpl implements LgmRandomGeneratorAPI {
 		double m = Math.pow(2, 31) - 1;
 		Random random = new Random(seed);
 		double[] rand = new double[n];
-		rand[0] = random.nextLong();
+		rand[0] = Math.abs(random.nextLong() % m);
+		double max = rand[0];
 				
-		for (int i=0; i<n; i++) {
-			if (i > 0) {
-				rand[i] = (rand[i-1] * a) % m; 
-			}
-			rand[i] = rand[i] / Math.pow(2, 31);
+		for (int i=1; i<n; i++) {
+			rand[i] = Math.abs((rand[i-1] * a) % m);
+			max = Math.max(rand[i], max);
 		}
 		
+		for (int i=0; i<n; i++) {
+			rand[i] = rand[i] / max;
+		}
 		return rand;
 	}
 	

@@ -12,15 +12,22 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.springframework.stereotype.Component;
 
 import com.task.api.PlotGeneratorAPI;
 import com.task.plot.impl.context.LineContext;
 
+import lombok.AllArgsConstructor;
+
+@Component
+@AllArgsConstructor
 public class LineChartGeneratorImpl implements PlotGeneratorAPI<LineContext> {
 
+	private JFrame jFrame;
+	
 	public void plot(LineContext ctx) {
     	String chartTitle = ctx.getChartTitle();
-    	String applicationTitle = ctx.getApplicationTitle(); 
+    	jFrame.setTitle(ctx.getApplicationTitle()); 
     	double[] xData = ctx.getXData();
     	double[] yData = ctx.getYData();
         int n = xData.length;
@@ -45,12 +52,8 @@ public class LineChartGeneratorImpl implements PlotGeneratorAPI<LineContext> {
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
-        JFrame frame = new JFrame(applicationTitle);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-
         ChartPanel chartPanel = new ChartPanel(chart);
-        frame.setContentPane(chartPanel);
-        frame.setVisible(true);
+        jFrame.setContentPane(chartPanel);
+        jFrame.setVisible(true);
     }
 }
