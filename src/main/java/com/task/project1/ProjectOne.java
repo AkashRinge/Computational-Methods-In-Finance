@@ -4,18 +4,24 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import org.springframework.stereotype.Component;
+
 import com.task.api.LgmRandomGeneratorAPI;
+import com.task.api.PlotAPI;
 import com.task.config.Factory;
 
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 
-@Setter
+@Component
+@AllArgsConstructor
 public class ProjectOne {
 	
 	private static final Logger LOG = Logger.getLogger("Project 1: Random Number Generation");
-	private static final Scanner READER = Factory.scanner();
+	private static final Scanner READER = new Scanner(System.in);
 	
-	private LgmRandomGeneratorAPI gen;
+	private LgmRandomGeneratorAPI generator;
+	private PlotAPI plot;
 	
 	public void run() {
 
@@ -26,7 +32,7 @@ public class ProjectOne {
 		
 		switch(READER.nextInt()) {
 			case 1:
-				
+				plot.
 			case 2:
 				
 			case 3:

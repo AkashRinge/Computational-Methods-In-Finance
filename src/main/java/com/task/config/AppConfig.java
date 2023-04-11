@@ -14,6 +14,7 @@ import com.task.plot.impl.LineChartGeneratorImpl;
 import com.task.plot.impl.PlotAPIImpl;
 import com.task.plot.impl.context.HistContext;
 import com.task.plot.impl.context.LineContext;
+import com.task.project1.ProjectOne;
 import com.task.project1.impl.LgmRandomGeneratorImpl;
 
 @Configuration
@@ -38,6 +39,11 @@ public class AppConfig {
 	@Bean
 	public LgmRandomGeneratorAPI lgmRandomGeneratorAPI() {
 		return new LgmRandomGeneratorImpl();
+	}
+	
+	@Bean
+	public ProjectOne projectOne() {
+		return new ProjectOne(lgmRandomGeneratorAPI(), plotAPI());
 	}
 	
 	@Bean
