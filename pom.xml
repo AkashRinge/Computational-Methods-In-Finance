@@ -1,0 +1,8 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>MFE</groupId>
+  <artifactId>Computational-Methods-In-Finance</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Computational-Methods-In-Finance</name>
+  <description>Project contains Box Muller methods, monte carlo simulations, stochastic process, discretization schemes, binomial and trinomial option pricing models, jump diffusion processes, finite and partial differencing methods, interest rate models, and valuation of MBS. </description>
+</project>
