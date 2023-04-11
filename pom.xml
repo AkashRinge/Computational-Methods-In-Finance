@@ -5,4 +5,32 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Computational-Methods-In-Finance</name>
   <description>Project contains Box Muller methods, monte carlo simulations, stochastic process, discretization schemes, binomial and trinomial option pricing models, jump diffusion processes, finite and partial differencing methods, interest rate models, and valuation of MBS. </description>
+  
+  <dependencies>
+  
+  	<dependency>
+  		<groupId>org.projectlombok</groupId>
+  		<artifactId>lombok</artifactId>
+  		<version>1.18.26</version>
+  		<scope>provided</scope>
+  	</dependency>
+  	
+  	 <!-- https:// mvnrepository.com/artifact
+    /org.springframework/spring-core -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>4.3.11.RELEASE</version>
+    </dependency>
+  
+    <!-- https:// mvnrepository.com/artifact
+    /org.springframework/spring-context -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>4.3.11.RELEASE</version>
+    </dependency>
+  
+  </dependencies>
+
 </project>
