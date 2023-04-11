@@ -1,14 +1,26 @@
 package com.task.project1.impl;
 
-import com.task.api.LgmRandomGenerator;
+import java.util.Random;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import com.task.api.LgmRandomGeneratorAPI;
 
-public class LgmRandomGeneratorImpl implements LgmRandomGenerator {
+public class LgmRandomGeneratorImpl implements LgmRandomGeneratorAPI {
 
-	public float generateUniformNumbers(int start, int end, int seed) {
-		return 0;
+	public double[] uniformDist(int n, int seed) {
+		double a = Math.pow(7, 5);
+		double m = Math.pow(2, 31) - 1;
+		Random random = new Random(seed);
+		double[] rand = new double[n];
+		rand[0] = random.nextLong();
+				
+		for (int i=0; i<n; i++) {
+			if (i > 0) {
+				rand[i] = (rand[i-1] * a) % m; 
+			}
+			rand[i] = rand[i] / Math.pow(2, 31);
+		}
+		
+		return rand;
 	}
 	
 }

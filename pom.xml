@@ -7,7 +7,6 @@
   <description>Project contains Box Muller methods, monte carlo simulations, stochastic process, discretization schemes, binomial and trinomial option pricing models, jump diffusion processes, finite and partial differencing methods, interest rate models, and valuation of MBS. </description>
   
   <dependencies>
-  
   	<dependency>
   		<groupId>org.projectlombok</groupId>
   		<artifactId>lombok</artifactId>
@@ -30,6 +29,12 @@
         <artifactId>spring-context</artifactId>
         <version>4.3.11.RELEASE</version>
     </dependency>
+    
+    <dependency>
+	    <groupId>org.jfree</groupId>
+	    <artifactId>jfreechart</artifactId>
+	    <version>1.5.3</version>
+	</dependency>
   
   </dependencies>
 
