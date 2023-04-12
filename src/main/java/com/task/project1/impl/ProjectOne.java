@@ -95,11 +95,11 @@ public class ProjectOne {
 					break;
 				case 4:
 					LOG.info(String.format("\n Mean: %f \t Standard Deviation: %f \n\n", modMean, Math.sqrt(modVar)));
-					plot.plotHist("Software Generated Histogram", CHART_TITLE, modDist, 100);
+					plot.plotHist("Software Generated Histogram", CHART_TITLE, modDist, 15);
 					break;
 				case 5: 
 					LOG.info("\nFor the given binomial distribution Probablity P(X >= 40) = " + probGreater40);
-					plot.plotHist("Histogram of binomial distribution", CHART_TITLE, binomial, 100);
+					plot.plotHist("Histogram of binomial distribution", CHART_TITLE, binomial, 40);
 					break;
 				case 6:
 					LOG.info("\nFor the given exponential distribution Probablity P(X >= 2) = " + probGreater2);

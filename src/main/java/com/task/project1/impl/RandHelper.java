@@ -10,6 +10,13 @@ import org.apache.commons.math3.random.RandomGenerator;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * This is my Random generation helper. I have added capabilities to compute the uniform distribution, 
+ * polar mars, box muller, exponential, binomial etc
+ * 
+ * @author food4thought
+ *
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RandHelper {
 

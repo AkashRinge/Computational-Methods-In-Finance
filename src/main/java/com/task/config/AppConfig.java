@@ -22,6 +22,12 @@ import com.task.plot.impl.context.MultiLineContext;
 import com.task.project1.impl.LgmRandomGeneratorImpl;
 import com.task.project1.impl.ProjectOne;
 
+/**
+ * This file is used to configure all the resources used by the application
+ * 
+ * @author food4thought
+ *
+ */
 @Configuration
 @ComponentScan(basePackages = "com.task")
 public class AppConfig {

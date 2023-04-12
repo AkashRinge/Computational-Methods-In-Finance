@@ -19,7 +19,7 @@ public class ComputationalFinanceService {
 			boolean keepExecuting = true;
 			while(keepExecuting) {
 				LOG.info("\n\n!! Welcome to experiments with Computational Methods in Finance. Following are the list of projects !!"	//NOSONAR
-				+ "\nProject 1 - Random number generation"
+				+ "\nProject 1 - Random Number Simulation Methodologies"
 				+ "\n\n|| Enter project number which you want to view || Any other key to exit: || \n ");
 				try {
 					int x = READ.nextInt();

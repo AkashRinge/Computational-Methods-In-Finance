@@ -3,6 +3,12 @@ package com.task.util;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * Utility functions
+ * 
+ * @author food4thought
+ *
+ */
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class StatsHelper {
 
