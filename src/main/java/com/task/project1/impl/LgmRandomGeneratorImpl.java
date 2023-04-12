@@ -2,14 +2,20 @@ package com.task.project1.impl;
 
 import java.util.Random;
 
+import org.apache.commons.math3.random.AbstractRandomGenerator;
+import org.springframework.stereotype.Component;
+
 import com.task.api.LgmRandomGeneratorAPI;
 
-public class LgmRandomGeneratorImpl implements LgmRandomGeneratorAPI {
+@Component
+public class LgmRandomGeneratorImpl extends AbstractRandomGenerator implements LgmRandomGeneratorAPI {
 
+	private Random random;
+	
 	public double[] uniformDist(int n, int seed) {
 		double a = Math.pow(7, 5);
 		double m = Math.pow(2, 31) - 1;
-		Random random = new Random(seed);
+		random = new Random(seed);
 		double[] rand = new double[n];
 		rand[0] = Math.abs(random.nextLong() % m);
 		double max = rand[0];
@@ -23,6 +29,16 @@ public class LgmRandomGeneratorImpl implements LgmRandomGeneratorAPI {
 			rand[i] = rand[i] / max;
 		}
 		return rand;
+	}
+
+	@Override
+	public void setSeed(long seed) {
+		random = new Random(seed);
+	}
+
+	@Override
+	public double nextDouble() {
+		return random.nextDouble();
 	}
 	
 }

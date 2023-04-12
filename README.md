@@ -1,3 +1,8 @@
 # Computational-Methods-In-Finance
 
-### 1. Random Number Generation, Discrete and Continuous Random Variable Simulation. Inverse Transformation, Box-Muller and Polar-Marsaglia methods, Multidimensional Normal generation, Poisson-Exponential relationship, Acceptance-Rejection Method. Kolmogorov-Smirnov test.
+Please make sure you have Java (jdk 16)-16 installed and added to PATH in environment variables
+Open cmd and go to the folder where jar is location
+Run the command java -jar Computational-Methods-In-Finance.jar
+
+
+### 1. Random Number Generation, Discrete and Continuous Random Variable Simulation. Inverse Transformation, Binomial Generation, Box-Muller and Polar-Marsaglia methods.

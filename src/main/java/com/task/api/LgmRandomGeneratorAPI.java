@@ -1,11 +1,13 @@
 package com.task.api;
 
+import org.apache.commons.math3.random.RandomGenerator;
+
 /**
  * 
  * Uses Lewis, Goodman, and Miller algorithm to generate random numbers
  * 
  */
-public interface LgmRandomGeneratorAPI {
+public interface LgmRandomGeneratorAPI extends RandomGenerator {
 	
 	/**
 	 * Generated uniform distribution between [0,1]

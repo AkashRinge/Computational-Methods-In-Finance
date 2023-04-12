@@ -14,11 +14,13 @@ import com.task.api.PlotAPI;
 import com.task.api.PlotGeneratorAPI;
 import com.task.plot.impl.HistogramGeneratorImpl;
 import com.task.plot.impl.LineChartGeneratorImpl;
+import com.task.plot.impl.MultiLineChartGeneratorImpl;
 import com.task.plot.impl.PlotAPIImpl;
 import com.task.plot.impl.context.HistContext;
 import com.task.plot.impl.context.LineContext;
-import com.task.project1.ProjectOne;
+import com.task.plot.impl.context.MultiLineContext;
 import com.task.project1.impl.LgmRandomGeneratorImpl;
+import com.task.project1.impl.ProjectOne;
 
 @Configuration
 @ComponentScan(basePackages = "com.task")
@@ -26,7 +28,7 @@ public class AppConfig {
 
 	@Bean
 	public PlotAPI plotAPI() {
-		return new PlotAPIImpl(hist(), line());
+		return new PlotAPIImpl(hist(), line(), multiLine());
 	}
 	
 	@Bean 
@@ -37,6 +39,11 @@ public class AppConfig {
 	@Bean 
 	public PlotGeneratorAPI<HistContext> hist() {
 		return new HistogramGeneratorImpl(jFrame());
+	}
+	
+	@Bean 
+	public PlotGeneratorAPI<MultiLineContext> multiLine() {
+		return new MultiLineChartGeneratorImpl();
 	}
 	
 	@Bean
