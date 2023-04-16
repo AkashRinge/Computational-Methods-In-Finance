@@ -1,21 +1,22 @@
 package com.task.project2.impl;
 
+import java.util.Arrays;
+import java.util.Iterator;
+
+import org.apache.commons.math3.distribution.NormalDistribution;
+
 import com.task.util.GeneralHelper;
 import com.task.util.StatsHelper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access=AccessLevel.PRIVATE)
-public class ProjectTwoHelper {
+@NoArgsConstructor(access=AccessLevel.NONE)
+public class ProjectTwoUtil {
 	
-	private static final ProjectTwoHelper SINGLETON = new ProjectTwoHelper();
+	static final NormalDistribution STANDARD_NORMAL = new NormalDistribution(0, 1);
 	
-	static ProjectTwoHelper instance() {
-		return SINGLETON;
-	}
-	
-	double bivariateCorr(double[][] bivariateNormDist, int n) {
+	static double bivariateCorr(double[][] bivariateNormDist, int n) {
 		double[][] bivariateNormDistT = GeneralHelper.transpose(bivariateNormDist);
 		
 		double cov = StatsHelper.covariance(bivariateNormDistT[0], bivariateNormDistT[1], n);
@@ -25,8 +26,7 @@ public class ProjectTwoHelper {
 		return cov / (sigma1 * sigma2);
 	}
 	
-	double customMonteCarlo(double x, double y) {
-		return Math.max(0, Math.pow(y, 3) + (Math.sin(y)) + (x*x*y));
+	static double stdWeiner(double t) {
+		return STANDARD_NORMAL.sample() * Math.sqrt(t);
 	}
-	
 }
