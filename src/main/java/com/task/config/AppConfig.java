@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.task.api.BlackScholesAPI;
 import com.task.api.LgmRandomGeneratorAPI;
 import com.task.api.PlotAPI;
 import com.task.api.PlotGeneratorAPI;
@@ -21,6 +22,7 @@ import com.task.plot.impl.domain.LineContext;
 import com.task.plot.impl.domain.MultiLineContext;
 import com.task.project1.impl.LgmRandomGeneratorImpl;
 import com.task.project1.impl.ProjectOne;
+import com.task.project2.impl.BlackScholesImpl;
 import com.task.project2.impl.ProjectTwo;
 
 /**
@@ -59,13 +61,18 @@ public class AppConfig {
 	}
 	
 	@Bean
+	public BlackScholesAPI bsAPI() {
+		return new BlackScholesImpl();
+	}
+	
+	@Bean
 	public ProjectOne projectOne() {
 		return new ProjectOne(lgmRandomGeneratorAPI(), plotAPI());
 	}
 	
 	@Bean
 	public ProjectTwo projectTwo() {
-		return new ProjectTwo(plotAPI());
+		return new ProjectTwo(plotAPI(), bsAPI());
 	}
 	
 	@Bean
