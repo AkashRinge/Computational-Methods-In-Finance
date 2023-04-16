@@ -11,7 +11,7 @@ import org.jfree.data.xy.DefaultXYDataset;
 import org.springframework.stereotype.Component;
 
 import com.task.api.PlotGeneratorAPI;
-import com.task.plot.impl.context.MultiLineContext;
+import com.task.plot.impl.domain.MultiLineContext;
 
 import lombok.AllArgsConstructor;
 

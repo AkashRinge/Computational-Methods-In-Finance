@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.task.api.PlotAPI;
 import com.task.api.PlotGeneratorAPI;
-import com.task.plot.impl.context.HistContext;
-import com.task.plot.impl.context.LineContext;
-import com.task.plot.impl.context.MultiLineContext;
+import com.task.plot.impl.domain.HistContext;
+import com.task.plot.impl.domain.LineContext;
+import com.task.plot.impl.domain.MultiLineContext;
 
 import lombok.AllArgsConstructor;
 

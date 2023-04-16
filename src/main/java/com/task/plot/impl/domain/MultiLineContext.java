@@ -1,4 +1,4 @@
-package com.task.plot.impl.context;
+package com.task.plot.impl.domain;
 
 import java.util.List;
 

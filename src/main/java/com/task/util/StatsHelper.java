@@ -24,8 +24,19 @@ public class StatsHelper {
 		double m = mean(list);
 		double v = 0;
 		for(int i=0; i<n; i++) {
-			v += ((list[i] - m)/n) * (list[i] - m);
+			v += ((list[i] - m)/(n <= 1 ? n : n-1) * (list[i] - m));
 		}
 		return v;
+	}
+	
+	public static double covariance(double[] x, double[] y, int n) {
+		double xMean = mean(x);
+		double yMean = mean(y);
+		double cov = 0;
+		for (int i=0; i<n; i++) {
+			cov += ((x[i] - xMean)/(n <= 1 ? n : n-1) * (y[i] - yMean));
+		}
+
+		return cov;
 	}
 }

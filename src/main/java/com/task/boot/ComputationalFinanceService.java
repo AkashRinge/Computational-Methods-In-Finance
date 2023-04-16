@@ -8,6 +8,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import com.task.config.AppConfig;
 import com.task.project1.impl.ProjectOne;
+import com.task.project2.impl.ProjectTwo;
 
 public class ComputationalFinanceService {
 	private static final Logger LOG = Logger.getLogger("Computational Methods in Finance Using Java");
@@ -26,6 +27,9 @@ public class ComputationalFinanceService {
 					switch(x) { // NOSONAR will add other cases
 						case 1:
 							ctx.getBean(ProjectOne.class).run();
+							break;
+						case 2:
+							ctx.getBean(ProjectTwo.class).run();
 							break;
 						default:
 							keepExecuting = false;

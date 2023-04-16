@@ -15,7 +15,7 @@ import org.jfree.data.statistics.HistogramDataset;
 import org.springframework.stereotype.Component;
 
 import com.task.api.PlotGeneratorAPI;
-import com.task.plot.impl.context.HistContext;
+import com.task.plot.impl.domain.HistContext;
 
 import lombok.AllArgsConstructor;
 

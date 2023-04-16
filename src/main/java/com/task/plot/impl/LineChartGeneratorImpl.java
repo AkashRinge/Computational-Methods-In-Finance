@@ -16,7 +16,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.springframework.stereotype.Component;
 
 import com.task.api.PlotGeneratorAPI;
-import com.task.plot.impl.context.LineContext;
+import com.task.plot.impl.domain.LineContext;
 
 import lombok.AllArgsConstructor;
 
