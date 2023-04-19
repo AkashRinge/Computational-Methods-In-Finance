@@ -9,6 +9,7 @@ import com.task.api.PlotGeneratorAPI;
 import com.task.plot.impl.domain.HistContext;
 import com.task.plot.impl.domain.LineContext;
 import com.task.plot.impl.domain.MultiLineContext;
+import com.task.plot.impl.domain.ScatterPlotContext;
 
 import lombok.AllArgsConstructor;
 
@@ -19,6 +20,7 @@ public class PlotAPIImpl implements PlotAPI {
 	private PlotGeneratorAPI<HistContext> hist;
 	private PlotGeneratorAPI<LineContext> line;
 	private PlotGeneratorAPI<MultiLineContext> multiLine;
+	private PlotGeneratorAPI<ScatterPlotContext> scatter;
 
 	@Override
 	public void plotHist(String applicationTitle, String chartTitle, double[] data, int numBins) {
@@ -43,5 +45,13 @@ public class PlotAPIImpl implements PlotAPI {
 		multiCtx.setApplicationTitle(applicationTitle);
 		multiCtx.setChartTitle(chartTitle);
 		multiLine.plot(multiCtx);
+	}
+
+	@Override
+	public void scatter(String chartTitle, String applicationTitle, double[] xData, double[] yData) {
+		ScatterPlotContext scatterCtx = new ScatterPlotContext(xData, yData);
+		scatterCtx.setApplicationTitle(applicationTitle);
+		scatterCtx.setChartTitle(chartTitle);
+		scatter.plot(scatterCtx);
 	}
 }

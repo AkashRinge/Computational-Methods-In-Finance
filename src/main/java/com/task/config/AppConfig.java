@@ -17,9 +17,11 @@ import com.task.plot.impl.HistogramGeneratorImpl;
 import com.task.plot.impl.LineChartGeneratorImpl;
 import com.task.plot.impl.MultiLineChartGeneratorImpl;
 import com.task.plot.impl.PlotAPIImpl;
+import com.task.plot.impl.ScatterPlotGeneratorImpl;
 import com.task.plot.impl.domain.HistContext;
 import com.task.plot.impl.domain.LineContext;
 import com.task.plot.impl.domain.MultiLineContext;
+import com.task.plot.impl.domain.ScatterPlotContext;
 import com.task.project1.impl.LgmRandomGeneratorImpl;
 import com.task.project1.impl.ProjectOne;
 import com.task.project2.impl.BlackScholesImpl;
@@ -37,7 +39,7 @@ public class AppConfig {
 
 	@Bean
 	public PlotAPI plotAPI() {
-		return new PlotAPIImpl(hist(), line(), multiLine());
+		return new PlotAPIImpl(hist(), line(), multiLine(), scatter());
 	}
 	
 	@Bean 
@@ -53,6 +55,11 @@ public class AppConfig {
 	@Bean 
 	public PlotGeneratorAPI<MultiLineContext> multiLine() {
 		return new MultiLineChartGeneratorImpl();
+	}
+	
+	@Bean 
+	public PlotGeneratorAPI<ScatterPlotContext> scatter() {
+		return new ScatterPlotGeneratorImpl(jFrame());
 	}
 	
 	@Bean

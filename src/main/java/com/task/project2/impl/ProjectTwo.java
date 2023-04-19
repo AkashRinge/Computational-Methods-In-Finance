@@ -3,10 +3,12 @@ package com.task.project2.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.springframework.stereotype.Component;
 
 import com.task.api.BlackScholesAPI;
@@ -27,111 +29,54 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ProjectTwo {
 
-	private static final Logger LOG = Logger.getLogger("Project 2: Monte Carlo Simulation and Numerical Integration in Finance");
-	
+	private static final Logger LOG = Logger
+			.getLogger("Project 2: Monte Carlo Simulation and Numerical Integration in Finance");
+	private static final Scanner READER = new Scanner(System.in);
+
 	private PlotAPI plot;
 	private BlackScholesAPI bsApi;
-	
+
 	public void run() {
-		
-		// Q1 parameters
-		double a = -0.7;
-		int n = 1000;
-		double[] meanVector = new double[]{0, 0};
-		double[][] covMatrix = new double[][] {{3,a},{a,5}};
-		double[][] bivariateDist = RandHelper.instance().bivariateDist(n, meanVector, covMatrix);
-		double rho = bivariateCorr(bivariateDist, n);
-		
-		// Q2 parameters
-		double[][] covMatrix2 = new double[][] {{1,0.6*0.6},{0.6*0.6,1}};
-		double[][] bivariateDist2 = RandHelper.instance().bivariateDist(10000, meanVector, covMatrix2);
-		List<MCContext> ctxList = new ArrayList<>(10000);
-		for(int i=0; i<bivariateDist2.length; i++) {
-			ctxList.add(new MCContext(bivariateDist2[i][0], bivariateDist2[i][1]));
+
+		ProjectTwoSolver solver = new ProjectTwoSolver(plot, bsApi);
+		boolean keepExecuting = true;
+		while (keepExecuting) {
+			LOG.info(
+					"\n\n1 - Generate a series of Bivariate-Normally distributed random vectors (x,y), with the mean vector of (0,0) and the variance – covariance matrix [[3,a],[a,5]] where a=0.7" // NOSONAR
+							+ "\n2 - Evaluate the function f(X,Y) = max(0, Y^3+sinY+YX^2) using Monte Carlo"
+							+ "\n3 - Estimate the two weiner processes for t = 1,3 and 5: (i) W^2 + sinW (ii) (e^(t/2)) * cosW"
+							+ "\n4 - Estimate the value of call option using Monte Carlo and compare it with Black Scholes. Optimize using antithetic variates Parameters r = 0.05, sigma = 0.28, s0 = $100, T=5, K=$110"
+							+ "\n5 - Estimate Stock value  assuming GBM via Monte Carlo and Path tracing and compare the two approaches"
+							+ "\n6 - Estimate the following integral 4*sqrt(i-x*x) by Euler's discretization (Riemann sum) and Monte Carlo and optimize using independent sampling"
+							+ "\nAny other number to exit\n");
+
+			int x = READER.nextInt();
+
+			switch (x) {
+			case 1:
+				solver.ques1();
+				break;
+			case 2:
+				solver.ques2();
+				break;
+			case 3:
+				solver.ques3();
+				break;
+			case 4:
+				solver.ques4();
+				break;
+			case 5:
+				solver.ques5();
+				break;
+			case 6:
+				solver.ques6();
+				break;
+			default:
+				LOG.info("Exiting to previous menu!");
+				keepExecuting = false;
+			}
 		}
-		
-		MCOperation<MCContext> op = ctx -> Math.max(0, Math.pow(ctx.y, 3) 
-				+ (Math.sin(ctx.y)) + (ctx.x*ctx.x*ctx.y));
-		
-		MonteCarloSimulatorAPI<MCContext> simulator = new MonteCarloSimulatorAPI<>(op, ctxList);
-		double expectedMc = simulator.simulateValue();
-		
-		// Q3 parameters
-		n = 10000;
-		MCOperation<Double> opA = t -> { 
-				double w = stdWeiner(t);
-				return (w*w + Math.sin(w));
-		};
-		
-		MCOperation<Double> opB = t -> { 
-			double w = stdWeiner(t);
-			return (Math.exp(t/2) * Math.cos(w));
-		};
-	
-		double a1 = runMcSpecifiedTime(n, opA, 1);
-		double a3 = runMcSpecifiedTime(n, opA, 3);
-		double a5 = runMcSpecifiedTime(n, opA, 5);
-		
 
-		double b1 = runMcSpecifiedTime(n, opB, 1);
-		double b3 = runMcSpecifiedTime(n, opB, 3);
-		double b5 = runMcSpecifiedTime(n, opB, 5);
-		
-		MCOperation<Double> antitheticA = t -> { 
-			double w1 = stdWeiner(t);
-			double w2 = stdWeiner(t);
-			double w = w1 * 0.5 + w2 * -0.5;
-			
-			return (w*w + Math.sin(w));
-		};
-		
-		double aAnt5 = runMcSpecifiedTime(n, opA, 5);
-		
-		// Q4 parameters
-		double T = 5;
-		double r = 0.05;
-		double s0 = 100;
-		double k = 110;
-		double sigma = 0.28;
-		
-		MCOperation<Double> callSimulation = t -> { 
-			double w = stdWeiner(t);
-			double st = s0 * Math.exp(sigma * w + (r - sigma*sigma*t/2));
-			double payoff = st - k;
-			return payoff * Math.exp((0-r)*t);
-		};
-		
-		double expectedCall = runMcSpecifiedTime(n, callSimulation, T);
-		
-		MCOperation<Double> callAntithetic = t -> { 
-			double w1 = stdWeiner(t);
-			double w2 = stdWeiner(t);
-			double w =  w1 * 0.5 + w2 * -0.5;
-			double st = s0 * Math.exp(sigma * w + (r - sigma*sigma*t/2));
-			double payoff = st - k;
-			return payoff * Math.exp((0-r)*t);
-		};
-		
-		double expectedCall2 = runMcSpecifiedTime(n, callAntithetic, T);
-		
-		double bsCall = bsApi.calculateCallOptionValue(s0, k, r, T, sigma);
-		
-		// Q5 parameters
-		
-		// Q6 parameters
-		
 	}
 
-	private double runMcSpecifiedTime(int n, MCOperation<Double> op, double t) {
-		List<Double> times = IntStream.range(0, n).boxed().map(x -> t).collect(Collectors.toList());
-		MonteCarloSimulatorAPI<Double> simulator2 = new MonteCarloSimulatorAPI<>(op, times);
-		return simulator2.simulateValue();
-	}
-	
-	@AllArgsConstructor
-	private class MCContext {
-		private Double x;
-		private Double y;
-	}
-	
 }

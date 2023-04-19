@@ -42,4 +42,14 @@ public interface PlotAPI {
 	  * @param yAxisLabel
 	  */
 	 public void plotMultiLine(String chartTitle, String applicationTitle, List<double[]> data, List<String> seriesNames, String xAxisLabel, String yAxisLabel);
+	 
+	 /**
+	  * Scatter plot
+	  * 
+	  * @param chartTitle
+	  * @param applicationTitle
+	  * @param xData
+	  * @param yData
+	  */
+	 public void scatter(String chartTitle, String applicationTitle, double[] xData, double[] yData);
 }
