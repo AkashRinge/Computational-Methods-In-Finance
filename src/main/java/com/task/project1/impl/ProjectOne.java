@@ -6,7 +6,6 @@ import static com.task.util.StatsHelper.variance;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
-import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;

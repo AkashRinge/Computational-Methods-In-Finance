@@ -3,7 +3,6 @@ package com.task.boot;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.task.config.AppConfig;

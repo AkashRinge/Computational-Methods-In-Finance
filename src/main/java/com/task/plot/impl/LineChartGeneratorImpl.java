@@ -3,7 +3,6 @@ package com.task.plot.impl;
 import java.awt.Color;
 
 import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;

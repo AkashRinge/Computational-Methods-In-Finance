@@ -1,8 +1,5 @@
 package com.task.plot.impl;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -14,12 +11,10 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 import org.jfree.data.xy.DefaultXYZDataset;
-import org.jfree.data.xy.XYZDataset;
 import org.springframework.stereotype.Component;
 
 import com.task.api.PlotGeneratorAPI;
 import com.task.plot.impl.domain.BubbleContext;
-import com.task.plot.impl.domain.PlotContext;
 
 import lombok.AllArgsConstructor;
 

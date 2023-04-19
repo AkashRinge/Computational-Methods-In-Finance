@@ -1,22 +1,12 @@
 package com.task.project2.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.springframework.stereotype.Component;
 
 import com.task.api.BlackScholesAPI;
-import com.task.api.MonteCarloSimulatorAPI;
 import com.task.api.PlotAPI;
-import com.task.domain.MCOperation;
-
-import static com.task.project2.impl.ProjectTwoUtil.*;
 
 import lombok.AllArgsConstructor;
 
