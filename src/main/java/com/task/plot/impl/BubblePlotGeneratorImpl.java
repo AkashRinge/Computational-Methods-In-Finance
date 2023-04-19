@@ -64,7 +64,7 @@ public class BubblePlotGeneratorImpl implements PlotGeneratorAPI<BubbleContext> 
 
         // Create the chart panel and set its properties
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(500, 500));
+        //chartPanel.setPreferredSize(new Dimension(500, 500));
         chartPanel.setMouseZoomable(true, false);
         chartPanel.setPopupMenu(null);
 
