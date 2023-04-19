@@ -34,11 +34,17 @@ public class BubblePlotGeneratorImpl implements PlotGeneratorAPI<BubbleContext> 
 	
 		// Create the dataset
         DefaultXYZDataset dataset = new DefaultXYZDataset();
-        dataset.addSeries("Data", ctx.getData());
+        double[][] parsable = new double[3][ctx.getData().length];
+        for(int i=0; i<ctx.getData().length; i++) {
+        	parsable[0][i] = i;
+        	parsable[1][i] = ctx.getData()[i][0];
+        	parsable[2][i] = ctx.getData()[i][1];
+        }
+        dataset.addSeries("Data", parsable);
 
         // Create the chart
         JFreeChart chart = ChartFactory.createBubbleChart(ctx.getChartTitle(), ctx.getXAxisLabel(), ctx.getYAxisLabel(), dataset,
-                PlotOrientation.VERTICAL, true, true, false);
+                PlotOrientation.VERTICAL, false, true, false);
 
         // Customize the chart
         chart.setBackgroundPaint(Color.white);
@@ -47,6 +53,7 @@ public class BubblePlotGeneratorImpl implements PlotGeneratorAPI<BubbleContext> 
         XYPlot plot = (XYPlot) chart.getPlot();
         XYBubbleRenderer renderer = new XYBubbleRenderer();
         renderer.setSeriesPaint(0, Color.blue);
+        renderer.setSeriesPaint(1, Color.gray);
         plot.setRenderer(renderer);
 
         // Set the axis labels

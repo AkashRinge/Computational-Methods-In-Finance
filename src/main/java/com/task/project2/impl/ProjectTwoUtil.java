@@ -1,8 +1,5 @@
 package com.task.project2.impl;
 
-import java.util.Arrays;
-import java.util.Iterator;
-
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
 
@@ -22,8 +19,8 @@ public class ProjectTwoUtil {
 		double[][] bivariateNormDistT = GeneralHelper.transpose(bivariateNormDist);
 		
 		double cov = StatsHelper.covariance(bivariateNormDistT[0], bivariateNormDistT[1], n);
-		double sigma1 = StatsHelper.variance(bivariateNormDistT[0]);
-		double sigma2 = StatsHelper.variance(bivariateNormDistT[1]);
+		double sigma1 = Math.sqrt(StatsHelper.variance(bivariateNormDistT[0]));
+		double sigma2 = Math.sqrt(StatsHelper.variance(bivariateNormDistT[1]));
 		
 		return cov / (sigma1 * sigma2);
 	}

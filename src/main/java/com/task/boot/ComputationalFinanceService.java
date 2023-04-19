@@ -37,6 +37,7 @@ public class ComputationalFinanceService {
 							LOG.info(" !!Goodbye!! ");
 					}
 				} catch(Exception ex) {
+					ex.printStackTrace();
 					keepExecuting = false;
 					LOG.info(" !!Goodbye!! ");
 				}

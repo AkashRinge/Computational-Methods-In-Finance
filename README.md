@@ -7,3 +7,6 @@
 
 ### Project 1 - Random Number Simulation Methodologies
 Random Number Generation, Random Variable Simulation. Inverse Transformation, Binomial Distribution, Box-Muller and Polar-Marsaglia methods.
+
+### Project 2 - Monte Carlo Simulation and Numerical Integration Techniques
+Functionality for solving a variety of mathematical problems. The project utilizes various APIs, to perform tasks such as plotting graphs, calculating option values, and simulating Monte Carlo (Antithetic) methods.

@@ -29,7 +29,7 @@ public class ProjectTwoSolver {
 	private PlotAPI plt;
 	private BlackScholesAPI bsApi;
 
-	void ques1(Scanner sc) {
+	void ques1() {
 		// Q1 parameters
 		double a = -0.7;
 		int n = 1000;
@@ -40,13 +40,12 @@ public class ProjectTwoSolver {
 		plt.bubble("Bivariate Normal Distribution", "Bivariate Normal Distribution", bivariateDist, "Number of simulations", "Value of random variable");
 		double rho = bivariateCorr(bivariateDist, n);
 		LOG.info("\n\n Correlation coefficient: rho(a): " + rho); //NOSONAR
-		sc.next();
 	}
 
 	void ques2() {
 		// Q2 parameters
 		double[] meanVector = new double[] { 0, 0 };
-		double[][] covMatrix2 = new double[][] { { 1, 0.6 * 0.6 }, { 0.6 * 0.6, 1 } };
+		double[][] covMatrix2 = new double[][] { { 1, 0.6 }, { 0.6 , 1 } };
 		double[][] bivariateDist2 = RandHelper.instance().bivariateDist(10000, meanVector, covMatrix2);
 		List<MCContext> ctxList = new ArrayList<>(10000);
 		for (int i = 0; i < bivariateDist2.length; i++) {
@@ -85,10 +84,10 @@ public class ProjectTwoSolver {
 
 		MCOperation<Double> antitheticA = t -> {
 			double w1 = stdWeiner(t);
-			double w2 = stdWeiner(t);
-			double w = w1 * 0.5 + w2 * -0.5;
-
-			return (w * w + Math.sin(w));
+			double f1 = w1 * w1 + Math.sin(w1);
+			double w2 = 0-w1;
+			double f2 = w2 * w2 + Math.sin(w2);
+			return (0.5*f1 + 0.5*f2);
 		};
 
 		double aAnt5 = runMcSpecifiedTime(n, antitheticA, 5);
@@ -114,8 +113,8 @@ public class ProjectTwoSolver {
 
 		MCOperation<Double> callSimulation = t -> {
 			double w = stdWeiner(t);
-			double st = s0 * Math.exp(sigma * w + (r - sigma * sigma * t / 2));
-			double payoff = st - k;
+			double st = s0 * Math.exp(sigma * w + (r*t - sigma*sigma*t/2));
+			double payoff = Math.max(0, st - k);
 			return payoff * Math.exp((0 - r) * t);
 		};
 
@@ -123,10 +122,12 @@ public class ProjectTwoSolver {
 
 		MCOperation<Double> callAntithetic = t -> {
 			double w1 = stdWeiner(t);
-			double w2 = stdWeiner(t);
-			double w = w1 * 0.5 + w2 * -0.5;
-			double st = s0 * Math.exp(sigma * w + (r - sigma * sigma * t / 2));
-			double payoff = st - k;
+			double w2 = 0-w1;
+			double st1 = s0 * Math.exp(sigma * w1 + (r*t - sigma * sigma * t / 2));
+			double st2 = s0 * Math.exp(sigma * w2 + (r*t - sigma * sigma * t / 2));
+			double payoff1 = Math.max(0, st1 - k);
+			double payoff2 = Math.max(0, st2 - k);
+			double payoff = payoff1*0.5 + payoff2*0.5;
 			return payoff * Math.exp((0 - r) * t);
 		};
 
@@ -154,8 +155,8 @@ public class ProjectTwoSolver {
 		double[] expSt = new double[1000];
 		for (int t = 1; t <= 10; t++) {
 			double mcVal = runMcSpecifiedTime(1000, stSimulation, t);
-			for(int i=0; i<(t *100); i++) // This is for plotting 
-				expSt[i] = mcVal;
+			for(int i=0; i<100; i++) // This is for plotting 
+				expSt[(t-1)*100+i] = mcVal;
 		}
 		data.add(expSt);
 		seriesNames.add("E(St)");
