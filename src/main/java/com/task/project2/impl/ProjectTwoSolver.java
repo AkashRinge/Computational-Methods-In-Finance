@@ -7,6 +7,9 @@ import static com.task.project2.impl.ProjectTwoUtil.stdWeiner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -21,18 +24,23 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class ProjectTwoSolver {
 
+	private static final Logger LOG = Logger.getLogger("Project Two Solver");
+	
 	private PlotAPI plt;
 	private BlackScholesAPI bsApi;
 
-	void ques1() {
+	void ques1(Scanner sc) {
 		// Q1 parameters
 		double a = -0.7;
 		int n = 1000;
 		double[] meanVector = new double[] { 0, 0 };
 		double[][] covMatrix = new double[][] { { 3, a }, { a, 5 } };
 		double[][] bivariateDist = RandHelper.instance().bivariateDist(n, meanVector, covMatrix);
+		LOG.info("\n\nBubble Plot for bivariate distribution");
+		plt.bubble("Bivariate Normal Distribution", "Bivariate Normal Distribution", bivariateDist, "Number of simulations", "Value of random variable");
 		double rho = bivariateCorr(bivariateDist, n);
-		
+		LOG.info("\n\n Correlation coefficient: rho(a): " + rho); //NOSONAR
+		sc.next();
 	}
 
 	void ques2() {
@@ -50,6 +58,7 @@ public class ProjectTwoSolver {
 
 		MonteCarloSimulatorAPI<MCContext> simulator = new MonteCarloSimulatorAPI<>(op, ctxList);
 		double expectedMc = simulator.simulateValue();
+		LOG.info("\n\n Expected value of expression using monte carlo simulation " + expectedMc); //NOSONAR
 	}
 
 	void ques3() {
@@ -82,7 +91,16 @@ public class ProjectTwoSolver {
 			return (w * w + Math.sin(w));
 		};
 
-		double aAnt5 = runMcSpecifiedTime(n, opA, 5);
+		double aAnt5 = runMcSpecifiedTime(n, antitheticA, 5);
+		LOG.info("\n\n Monte Carlo simulated value of A(t) for t = 1 " + a1); //NOSONAR
+		LOG.info("\n Monte Carlo simulated value of A(t) for t = 3 " + a3); //NOSONAR
+		LOG.info("\n Monte Carlo simulated value of A(t) for t = 5 " + a5); //NOSONAR
+		
+		LOG.info("\n\n Monte Carlo simulated value of B(t) for t = 1 " + b1); //NOSONAR
+		LOG.info("\n Monte Carlo simulated value of B(t) for t = 3 " + b3); //NOSONAR
+		LOG.info("\n Monte Carlo simulated value of B(t) for t = 5 " + b5); //NOSONAR
+		
+		LOG.info("\n\n Monte Carlo simulated value of A(t) using antithetic variates for t = 5 " + aAnt5); //NOSONAR
 	}
 
 	void ques4() {
@@ -115,6 +133,10 @@ public class ProjectTwoSolver {
 		double expectedCall2 = runMcSpecifiedTime(n, callAntithetic, T);
 
 		double bsCall = bsApi.calculateCallOptionValue(s0, k, r, T, sigma);
+		
+		LOG.info("\n\n Monte Carlo simulated value of call: " + expectedCall); //NOSONAR
+		LOG.info("\nMonte Carlo simulated value of call using antithetic variates: " + expectedCall2); //NOSONAR
+		LOG.info("\n Monte Carlo simulated value of call using Black Scholes: " + bsCall); //NOSONAR
 	}
 
 	void ques5() {
@@ -124,22 +146,34 @@ public class ProjectTwoSolver {
 		double sigma = 0.28;
 		MCOperation<Double> stSimulation = t -> {
 			double w = stdWeiner(t);
-			double st = s0 * Math.exp(sigma * w + (r - (sigma * sigma) / 2) * t);
-			return st;
+			return s0 * Math.exp(sigma * w + (r - (sigma * sigma) / 2) * t);
 		};
 
-		double[] expSt = new double[10];
+		List<double[]> data = new ArrayList<>(7);
+		List<String> seriesNames = new ArrayList<>(7);
+		double[] expSt = new double[1000];
 		for (int t = 1; t <= 10; t++) {
-			expSt[t - 1] = runMcSpecifiedTime(1000, stSimulation, t);
+			double mcVal = runMcSpecifiedTime(1000, stSimulation, t);
+			for(int i=0; i<(t *100); i++) // This is for plotting 
+				expSt[i] = mcVal;
 		}
+		data.add(expSt);
+		seriesNames.add("E(St)");
 
 		double[][] expStPaths = new double[6][1000];
-		double timeStep = 0.1;
+		double timeStep = 10.0/1000;
 		for (int i = 1; i <= 1000; i++) {
 			for (int j = 0; j < 6; j++) {
+				if (i == 1) {
+					data.add(expStPaths[j]);
+					seriesNames.add("Path " + j);
+				}
 				expStPaths[j][i - 1] = stSimulation.run(i * timeStep);
 			}
 		}
+		
+		plt.plotMultiLine("Expected vs Trace of stock prices", "Stock price following GBM", data, seriesNames, "Time", "Stock Price");
+		
 	}
 
 	void ques6() {
@@ -148,6 +182,9 @@ public class ProjectTwoSolver {
 		MCOperation<Double> integral = x -> 4 * Math.sqrt(1 - x * x);
 		double reimannEst = estimateIntegralReimann(steps, integral, 0, 1);
 		double mcEst = estimateIntegralMC(steps, integral, 0, 1);
+		
+		LOG.info("\n\n Simulated value of integral using reimann estimate: " + reimannEst); //NOSONAR
+		LOG.info("\n Simulated value of integral using monte carlo: " + mcEst); //NOSONAR
 	}
 	
 	

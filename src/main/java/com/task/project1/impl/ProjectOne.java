@@ -6,6 +6,7 @@ import static com.task.util.StatsHelper.variance;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
@@ -90,6 +91,7 @@ public class ProjectOne {
 					plot.plotHist("Software Generated Histogram", CHART_TITLE, software, 100);
 					break;
 				case 3:
+	
 					plot.plotMultiLine("Distribution of LGM vs Software", "LGM vs Software", List.of(lgm, software), List.of("LGM", "Software"), "i", "ith Random number");
 					LOG.info("As we can see the plots follow exactly similar trend to each other\n\n");
 					break;

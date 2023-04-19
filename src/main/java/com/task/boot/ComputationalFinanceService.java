@@ -21,6 +21,7 @@ public class ComputationalFinanceService {
 			while(keepExecuting) {
 				LOG.info("\n\n!! Welcome to experiments with Computational Methods in Finance. Following are the list of projects !!"	//NOSONAR
 				+ "\nProject 1 - Random Number Simulation Methodologies"
+				+ "\nProject 2 - Monte Carlo Simulation and Numerical Integration Techniques"
 				+ "\n\n|| Enter project number which you want to view || Any other key to exit: || \n ");
 				try {
 					int x = READ.nextInt();

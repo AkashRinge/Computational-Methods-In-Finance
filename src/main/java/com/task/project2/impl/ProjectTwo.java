@@ -30,7 +30,7 @@ import lombok.AllArgsConstructor;
 public class ProjectTwo {
 
 	private static final Logger LOG = Logger
-			.getLogger("Project 2: Monte Carlo Simulation and Numerical Integration in Finance");
+			.getLogger("Project 2: Monte Carlo Simulation and Numerical Integration Techniques");
 	private static final Scanner READER = new Scanner(System.in);
 
 	private PlotAPI plot;
@@ -54,7 +54,7 @@ public class ProjectTwo {
 
 			switch (x) {
 			case 1:
-				solver.ques1();
+				solver.ques1(READER);
 				break;
 			case 2:
 				solver.ques2();

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ScatterPlotContext extends PlotContext {
+public class ScatterContext extends PlotContext {
 	private double[] xValues;
 	private double[] yValues;
 }

@@ -52,4 +52,15 @@ public interface PlotAPI {
 	  * @param yData
 	  */
 	 public void scatter(String chartTitle, String applicationTitle, double[] xData, double[] yData);
+	 
+	 /**
+	  * Bubble plot (3-d scatter)
+	  * 
+	  * @param chartTitle
+	  * @param applicationTitle
+	  * @param data
+	  * @param xAxis
+	  * @param yAxis
+	  */
+	 public void bubble(String chartTitle, String applicationTitle, double[][] data, String xAxis, String yAxis);
 }

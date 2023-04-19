@@ -19,17 +19,17 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.springframework.stereotype.Component;
 
 import com.task.api.PlotGeneratorAPI;
-import com.task.plot.impl.domain.ScatterPlotContext;
+import com.task.plot.impl.domain.ScatterContext;
 
 import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class ScatterPlotGeneratorImpl implements PlotGeneratorAPI<ScatterPlotContext> {
+public class ScatterPlotGeneratorImpl implements PlotGeneratorAPI<ScatterContext> {
 
 	private JFrame jFrame;
 
-    private XYDataset createDataset(ScatterPlotContext ctx) {
+    private XYDataset createDataset(ScatterContext ctx) {
         XYSeriesCollection dataset = new XYSeriesCollection();
         XYSeries series = new XYSeries(ctx.getChartTitle());
 
@@ -64,7 +64,7 @@ public class ScatterPlotGeneratorImpl implements PlotGeneratorAPI<ScatterPlotCon
     }
 
 	@Override
-	public void plot(ScatterPlotContext ctx) {
+	public void plot(ScatterContext ctx) {
 		XYDataset dataset = createDataset(ctx);
         JFreeChart chart = createChart(dataset, ctx.getChartTitle());
         ChartPanel chartPanel = new ChartPanel(chart);

@@ -13,15 +13,17 @@ import com.task.api.BlackScholesAPI;
 import com.task.api.LgmRandomGeneratorAPI;
 import com.task.api.PlotAPI;
 import com.task.api.PlotGeneratorAPI;
+import com.task.plot.impl.BubblePlotGeneratorImpl;
 import com.task.plot.impl.HistogramGeneratorImpl;
 import com.task.plot.impl.LineChartGeneratorImpl;
 import com.task.plot.impl.MultiLineChartGeneratorImpl;
 import com.task.plot.impl.PlotAPIImpl;
 import com.task.plot.impl.ScatterPlotGeneratorImpl;
+import com.task.plot.impl.domain.BubbleContext;
 import com.task.plot.impl.domain.HistContext;
 import com.task.plot.impl.domain.LineContext;
 import com.task.plot.impl.domain.MultiLineContext;
-import com.task.plot.impl.domain.ScatterPlotContext;
+import com.task.plot.impl.domain.ScatterContext;
 import com.task.project1.impl.LgmRandomGeneratorImpl;
 import com.task.project1.impl.ProjectOne;
 import com.task.project2.impl.BlackScholesImpl;
@@ -39,7 +41,7 @@ public class AppConfig {
 
 	@Bean
 	public PlotAPI plotAPI() {
-		return new PlotAPIImpl(hist(), line(), multiLine(), scatter());
+		return new PlotAPIImpl(hist(), line(), multiLine(), scatter(), bubble());
 	}
 	
 	@Bean 
@@ -58,8 +60,13 @@ public class AppConfig {
 	}
 	
 	@Bean 
-	public PlotGeneratorAPI<ScatterPlotContext> scatter() {
+	public PlotGeneratorAPI<ScatterContext> scatter() {
 		return new ScatterPlotGeneratorImpl(jFrame());
+	}
+	
+	@Bean 
+	public PlotGeneratorAPI<BubbleContext> bubble() {
+		return new BubblePlotGeneratorImpl(jFrame());
 	}
 	
 	@Bean
