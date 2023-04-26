@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.task.api.BlackScholesAPI;
+import com.task.api.MCCallOptionSimulatorAPI;
 import com.task.api.MonteCarloSimulatorAPI;
 import com.task.api.PlotAPI;
 import com.task.domain.MCOperation;
@@ -26,6 +27,7 @@ public class ProjectTwoSolver {
 	
 	private PlotAPI plt;
 	private BlackScholesAPI bsApi;
+	private MCCallOptionSimulatorAPI mcCallApi;
 
 	void ques1() {
 		// Q1 parameters
@@ -109,27 +111,9 @@ public class ProjectTwoSolver {
 		double k = 110;
 		double sigma = 0.28;
 
-		MCOperation<Double> callSimulation = t -> {
-			double w = stdWeiner(t);
-			double st = s0 * Math.exp(sigma * w + (r*t - sigma*sigma*t/2));
-			double payoff = Math.max(0, st - k);
-			return payoff * Math.exp((0 - r) * t);
-		};
+		double expectedCall = mcCallApi.callOption(s0, k, r, sigma, T, n);
 
-		double expectedCall = runMcSpecifiedTime(n, callSimulation, T);
-
-		MCOperation<Double> callAntithetic = t -> {
-			double w1 = stdWeiner(t);
-			double w2 = 0-w1;
-			double st1 = s0 * Math.exp(sigma * w1 + (r*t - sigma * sigma * t / 2));
-			double st2 = s0 * Math.exp(sigma * w2 + (r*t - sigma * sigma * t / 2));
-			double payoff1 = Math.max(0, st1 - k);
-			double payoff2 = Math.max(0, st2 - k);
-			double payoff = payoff1*0.5 + payoff2*0.5;
-			return payoff * Math.exp((0 - r) * t);
-		};
-
-		double expectedCall2 = runMcSpecifiedTime(n, callAntithetic, T);
+		double expectedCall2 = mcCallApi.callOptionAntithetic(s0, k, r, sigma, expectedCall, n);
 
 		double bsCall = bsApi.calculateCallOptionValue(s0, k, r, T, sigma);
 		

@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import org.springframework.stereotype.Component;
 
 import com.task.api.BlackScholesAPI;
+import com.task.api.MCCallOptionSimulatorAPI;
 import com.task.api.PlotAPI;
 
 import lombok.AllArgsConstructor;
@@ -25,10 +26,11 @@ public class ProjectTwo {
 
 	private PlotAPI plot;
 	private BlackScholesAPI bsApi;
+	private MCCallOptionSimulatorAPI mcCallApi;
 
 	public void run() {
 
-		ProjectTwoSolver solver = new ProjectTwoSolver(plot, bsApi);
+		ProjectTwoSolver solver = new ProjectTwoSolver(plot, bsApi, mcCallApi);
 		boolean keepExecuting = true;
 		while (keepExecuting) {
 			LOG.info(

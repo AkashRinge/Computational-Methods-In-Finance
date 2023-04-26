@@ -10,3 +10,6 @@ Random Number Generation, Random Variable Simulation. Inverse Transformation, Bi
 
 ### Project 2 - Monte Carlo Simulation and Numerical Integration Techniques
 Functionality for solving a variety of mathematical problems. The project utilizes various APIs, to perform tasks such as plotting graphs, calculating option values, and simulating Monte Carlo (Antithetic) methods.
+
+### Project 3 - Monte Carlo Simulation continued with Ito Processes and Call option simulation
+Simulating expected values and probabilities of certain 1-d and 2-d Ito processes. Monte Carlo simulations to estimate European call option prices, using both standard and variance reduction techniques. Price European call options using a 2-factor stochastic volatility model, and comparing different numerical methods. Generating and comparing pseudo-random and quasi-Monte Carlo sequences, and using them to estimate a specific integral.

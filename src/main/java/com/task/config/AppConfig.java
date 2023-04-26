@@ -10,7 +10,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.task.api.BlackScholesAPI;
+import com.task.api.CallOptionGreeksAPI;
 import com.task.api.LgmRandomGeneratorAPI;
+import com.task.api.MCCallOptionSimulatorAPI;
 import com.task.api.PlotAPI;
 import com.task.api.PlotGeneratorAPI;
 import com.task.plot.impl.BubblePlotGeneratorImpl;
@@ -28,6 +30,8 @@ import com.task.project1.impl.LgmRandomGeneratorImpl;
 import com.task.project1.impl.ProjectOne;
 import com.task.project2.impl.BlackScholesImpl;
 import com.task.project2.impl.ProjectTwo;
+import com.task.project3.impl.MCCallOptionSimulatorImpl;
+import com.task.project3.impl.ProjectThree;
 
 /**
  * This file is used to configure all the primary resources used by the application
@@ -80,13 +84,28 @@ public class AppConfig {
 	}
 	
 	@Bean
+	public MCCallOptionSimulatorAPI mcCallAPI() {
+		return new MCCallOptionSimulatorImpl();
+	}
+	
+	@Bean
+	public CallOptionGreeksAPI greeksAPI() {
+		return new CallOptionGreekImpl(bsAPI());
+	}
+	
+	@Bean
 	public ProjectOne projectOne() {
 		return new ProjectOne(lgmRandomGeneratorAPI(), plotAPI());
 	}
 	
 	@Bean
 	public ProjectTwo projectTwo() {
-		return new ProjectTwo(plotAPI(), bsAPI());
+		return new ProjectTwo(plotAPI(), bsAPI(), mcCallAPI());
+	}
+	
+	@Bean
+	public ProjectThree projectThree() {
+		return new ProjectThree(plotAPI(), bsAPI(), mcCallAPI());
 	}
 	
 	@Bean
