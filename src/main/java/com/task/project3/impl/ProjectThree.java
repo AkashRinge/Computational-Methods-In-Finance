@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import org.springframework.stereotype.Component;
 
 import com.task.api.BlackScholesAPI;
+import com.task.api.CallOptionGreeksAPI;
 import com.task.api.MCCallOptionSimulatorAPI;
 import com.task.api.PlotAPI;
 
@@ -26,10 +27,11 @@ public class ProjectThree implements Runnable {
 	private PlotAPI plotAPI;
 	private BlackScholesAPI bsAPI;
 	private MCCallOptionSimulatorAPI mcCallAPI;
+	private CallOptionGreeksAPI greeksAPI;
 	
 	@Override
 	public void run() {
-		ProjectThreeSolver solve = new ProjectThreeSolver(bsAPI, mcCallAPI, plotAPI);
+		ProjectThreeSolver solve = new ProjectThreeSolver(plotAPI, bsAPI, mcCallAPI, greeksAPI);
 		boolean keepExecuting = true;
 		while (keepExecuting) {
 			LOG.info(

@@ -30,6 +30,7 @@ import com.task.project1.impl.LgmRandomGeneratorImpl;
 import com.task.project1.impl.ProjectOne;
 import com.task.project2.impl.BlackScholesImpl;
 import com.task.project2.impl.ProjectTwo;
+import com.task.project3.impl.CallOptionGreeksImpl;
 import com.task.project3.impl.MCCallOptionSimulatorImpl;
 import com.task.project3.impl.ProjectThree;
 
@@ -90,7 +91,7 @@ public class AppConfig {
 	
 	@Bean
 	public CallOptionGreeksAPI greeksAPI() {
-		return new CallOptionGreekImpl(bsAPI());
+		return new CallOptionGreeksImpl(bsAPI());
 	}
 	
 	@Bean
@@ -105,7 +106,7 @@ public class AppConfig {
 	
 	@Bean
 	public ProjectThree projectThree() {
-		return new ProjectThree(plotAPI(), bsAPI(), mcCallAPI());
+		return new ProjectThree(plotAPI(), bsAPI(), mcCallAPI(), greeksAPI());
 	}
 	
 	@Bean

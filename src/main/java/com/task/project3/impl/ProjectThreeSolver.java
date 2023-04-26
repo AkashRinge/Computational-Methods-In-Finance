@@ -12,6 +12,8 @@ import com.task.api.BlackScholesAPI;
 import com.task.api.CallOptionGreeksAPI;
 import com.task.api.MCCallOptionSimulatorAPI;
 import com.task.api.PlotAPI;
+import com.task.api.StochasticVolatilitySimulatorAPI;
+import com.task.project3.impl.domain.StochasticVolatilityContext;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,10 +22,11 @@ import lombok.AllArgsConstructor;
 public class ProjectThreeSolver {
 
 	private static final Logger LOG = Logger.getLogger("Project 3 Solver");
+	private PlotAPI plotAPI;
 	private BlackScholesAPI bsAPI;
 	private MCCallOptionSimulatorAPI mcCallAPI;
 	private CallOptionGreeksAPI greeksAPI;
-	private PlotAPI plotAPI;
+	private StochasticVolatilitySimulatorAPI stocVolAPI;
 	
 	public void ques1() {
 		double p = 0;
@@ -87,8 +90,34 @@ public class ProjectThreeSolver {
 	}
 
 	
-	public void ques4() {
+	public void ques4(Scanner reader) {
+		int days = 252;
+		int n = 10000;
+		double rho = -0.6;
+		double r = 0.03;
+		double s0 = 48;
+		double v0 = 0.05;
+		double sigma = 0.42;
+		double a = 5.8;
+		double b = 0.0625;
 		
+		boolean keepExecuting = true;
+		while(keepExecuting) {
+			LOG.info("\nEnter K and T (in a single line separated by spaces): \n\n");
+			try {
+				double k = reader.nextDouble();
+				double T = reader.nextDouble();
+				
+				StochasticVolatilityContext ctx = new StochasticVolatilityContext(rho, r, s0, v0, sigma, a, b, k, T, days, n);
+				
+				LOG.info("\n Call option value using full truncation = " + stocVolAPI.callOptionFullTruncation(ctx)// NOSONAR 
+				+ "\n Call option value using partial truncation = " + stocVolAPI.callOptionPartialTruncation(ctx)
+				+ "\n Call option value using reflection = " + stocVolAPI.callOptionReflection(ctx));
+				keepExecuting = false;
+			} catch (Exception ex) {
+				LOG.log(Level.WARNING, "Error in input, please try again", ex);
+			}
+		}
 	}
 	
 	public void ques5() {
