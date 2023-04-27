@@ -15,6 +15,7 @@ import com.task.api.LgmRandomGeneratorAPI;
 import com.task.api.MCCallOptionSimulatorAPI;
 import com.task.api.PlotAPI;
 import com.task.api.PlotGeneratorAPI;
+import com.task.api.StochasticVolatilitySimulatorAPI;
 import com.task.plot.impl.BubblePlotGeneratorImpl;
 import com.task.plot.impl.HistogramGeneratorImpl;
 import com.task.plot.impl.LineChartGeneratorImpl;
@@ -33,6 +34,7 @@ import com.task.project2.impl.ProjectTwo;
 import com.task.project3.impl.CallOptionGreeksImpl;
 import com.task.project3.impl.MCCallOptionSimulatorImpl;
 import com.task.project3.impl.ProjectThree;
+import com.task.project3.impl.StochasticVolatilitySimulatorImpl;
 
 /**
  * This file is used to configure all the primary resources used by the application
@@ -95,6 +97,11 @@ public class AppConfig {
 	}
 	
 	@Bean
+	public StochasticVolatilitySimulatorAPI stocVolAPI() {
+		return new StochasticVolatilitySimulatorImpl();
+	}
+	
+	@Bean
 	public ProjectOne projectOne() {
 		return new ProjectOne(lgmRandomGeneratorAPI(), plotAPI());
 	}
@@ -106,7 +113,7 @@ public class AppConfig {
 	
 	@Bean
 	public ProjectThree projectThree() {
-		return new ProjectThree(plotAPI(), bsAPI(), mcCallAPI(), greeksAPI());
+		return new ProjectThree(plotAPI(), bsAPI(), mcCallAPI(), greeksAPI(), stocVolAPI());
 	}
 	
 	@Bean

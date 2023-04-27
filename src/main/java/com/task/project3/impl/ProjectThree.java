@@ -9,6 +9,7 @@ import com.task.api.BlackScholesAPI;
 import com.task.api.CallOptionGreeksAPI;
 import com.task.api.MCCallOptionSimulatorAPI;
 import com.task.api.PlotAPI;
+import com.task.api.StochasticVolatilitySimulatorAPI;
 
 import lombok.AllArgsConstructor;
 
@@ -28,10 +29,11 @@ public class ProjectThree implements Runnable {
 	private BlackScholesAPI bsAPI;
 	private MCCallOptionSimulatorAPI mcCallAPI;
 	private CallOptionGreeksAPI greeksAPI;
+	private StochasticVolatilitySimulatorAPI stocVolAPI;
 	
 	@Override
 	public void run() {
-		ProjectThreeSolver solve = new ProjectThreeSolver(plotAPI, bsAPI, mcCallAPI, greeksAPI);
+		ProjectThreeSolver solve = new ProjectThreeSolver(plotAPI, bsAPI, mcCallAPI, greeksAPI, stocVolAPI);
 		boolean keepExecuting = true;
 		while (keepExecuting) {
 			LOG.info(
@@ -39,7 +41,7 @@ public class ProjectThree implements Runnable {
 							+ "\n2 - For the given SDE Ito processes X(t),Y(t) evaluate (i) E( (1 + X(3)) ^ (1/3) )  (ii) E(X(1)Y(1)) "
 							+ "\n3 - Estimate the value of call option using Monte Carlo, Optimize using variance reduction techniques and compare it with Black Scholes.  Also calculate the sensitivities"
 							+ "\n4 - Given the 2-factor model for stock prices with stochastic volatility, simulate call option using Monte Carlo using  Full Truncation, Partial Truncation, and Reflection"
-							+ "\n5 - compare a sample of Pseudo-Random numbers with a sample of Quasi-Monte Carlo numbers "
+							+ "\n5 - Compare a sample of Pseudo-Random numbers with a sample of Quasi-Monte Carlo numbers "
 							+ "\nAny other number to exit\n");
 
 			int x = READER.nextInt();
@@ -55,10 +57,10 @@ public class ProjectThree implements Runnable {
 				solve.ques3(READER);
 				break;
 			case 4:
-				solve.ques4();
+				solve.ques4(READER);
 				break;
 			case 5:
-				solve.ques5();
+				solve.ques5(READER);
 				break;
 			default:
 				LOG.info("Exiting to previous menu!");

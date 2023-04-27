@@ -5,10 +5,15 @@ import java.util.Random;
 
 import org.apache.commons.math3.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math3.util.FastMath;
+import org.springframework.stereotype.Component;
 
 import com.task.api.StochasticVolatilitySimulatorAPI;
 import com.task.project3.impl.domain.StochasticVolatilityContext;
 
+import lombok.NoArgsConstructor;
+
+@Component
+@NoArgsConstructor
 public class StochasticVolatilitySimulatorImpl implements StochasticVolatilitySimulatorAPI {
 
 	@Override

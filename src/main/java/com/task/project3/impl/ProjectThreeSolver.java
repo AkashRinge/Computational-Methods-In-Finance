@@ -3,10 +3,17 @@ package com.task.project3.impl;
 import static com.task.project3.impl.ProjectThreeUtil.getWeiner;
 import static com.task.project3.impl.ProjectThreeUtil.weinerProcess;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
+
+import org.apache.commons.math3.random.HaltonSequenceGenerator;
 
 import com.task.api.BlackScholesAPI;
 import com.task.api.CallOptionGreeksAPI;
@@ -14,6 +21,7 @@ import com.task.api.MCCallOptionSimulatorAPI;
 import com.task.api.PlotAPI;
 import com.task.api.StochasticVolatilitySimulatorAPI;
 import com.task.project3.impl.domain.StochasticVolatilityContext;
+import com.task.util.GeneralHelper;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -22,6 +30,8 @@ import lombok.AllArgsConstructor;
 public class ProjectThreeSolver {
 
 	private static final Logger LOG = Logger.getLogger("Project 3 Solver");
+	private static final Random RAND = new Random();
+	
 	private PlotAPI plotAPI;
 	private BlackScholesAPI bsAPI;
 	private MCCallOptionSimulatorAPI mcCallAPI;
@@ -120,8 +130,63 @@ public class ProjectThreeSolver {
 		}
 	}
 	
-	public void ques5() {
+	public void ques5(Scanner reader) {
+		double[][] psuedoRandom = q5GenerateUniform2DVectors(100);
+		double[][] haltonSeq1 = new double[100][2];
+		double[][] haltonSeq2 = new double[100][2];
 		
+		int[] bases1 = {2, 7};
+		int[] bases2 = {2, 4};
+		int[] wts = {1,1};
+		
+        HaltonSequenceGenerator halton1 = new HaltonSequenceGenerator(0, bases1, wts);
+        HaltonSequenceGenerator halton2 = new HaltonSequenceGenerator(0, bases2, wts);
+        
+        for(int i=0; i<100; i++) {
+        	haltonSeq1[i] = halton1.nextVector();
+        	haltonSeq2[i] = halton2.nextVector();
+        }
+        
+        LOG.info("\nWhat do you want to plot");
+		boolean keepExecuting = true;
+		List<double[]> data;
+		double[][] seq;
+		String appTitle = "Uniform numbers";
+		while(keepExecuting) {
+			try {
+				LOG.info("\n\n1. Pseudo Random sequence"
+						+ "\n2. Halton sequence 1 (bases 2, 7)"
+						+ "\n3. Halton sequence 2 (bases 2, 4)"
+						+ "\nEnter any other character to exit");
+				int input = reader.nextInt();
+				switch(input) {
+				case 1:
+					seq = GeneralHelper.transpose(psuedoRandom);
+					data = new LinkedList<>();
+					data.add(seq[0]);
+					data.add(seq[1]);
+					plotAPI.plotMultiLine("Pseduo Random Sequence", appTitle, data, List.of("Seq1, Seq2"), "", "n");
+					break;
+				case 2:
+					seq = GeneralHelper.transpose(haltonSeq1);
+					data = new LinkedList<>();
+					data.add(seq[0]);
+					data.add(seq[1]);
+					plotAPI.plotMultiLine("Halton Sequence 1", appTitle, data, List.of("Base 2, Base 7"), "", "n");
+					break;
+				case 3:
+					seq = GeneralHelper.transpose(haltonSeq2);
+					data = new LinkedList<>();
+					data.add(seq[0]);
+					data.add(seq[1]);
+					plotAPI.plotMultiLine("Halton Sequence 2", appTitle, data, List.of("Base 2, Base 4"), "", "n");
+					break;
+				}
+			} catch(Exception ex) {
+				LOG.info("Opted to exit, going back to project 3");
+				keepExecuting = false;
+			}
+		}
 	}
 	
 	private double q1stochasticProcessX(double t, double precision) {
@@ -226,5 +291,14 @@ public class ProjectThreeSolver {
 			}
 		}
 	}
-	
+    
+	private double[][] q5GenerateUniform2DVectors(int n) {
+	    
+	    double[][] vectors = new double[n][2];
+	    for (int i = 0; i < n; i++) {
+	        vectors[i][0] = RAND.nextDouble();
+	        vectors[i][1] = RAND.nextDouble();
+	    }
+	    return vectors;
+	}
 }
