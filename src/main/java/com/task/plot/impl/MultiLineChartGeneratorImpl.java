@@ -50,7 +50,7 @@ public class MultiLineChartGeneratorImpl implements PlotGeneratorAPI<MultiLineCo
         }
         
         ValueAxis yAxis = chart.getXYPlot().getRangeAxis();
-        yAxis.setRange(min, max);;
+        yAxis.setRange(min, max);
         chart.getXYPlot().setRenderer(renderer);
           
         ChartFrame frame = new ChartFrame(ctx.getApplicationTitle(), chart);

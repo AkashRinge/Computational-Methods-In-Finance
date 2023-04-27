@@ -3,15 +3,12 @@ package com.task.project3.impl;
 import static com.task.project3.impl.ProjectThreeUtil.getWeiner;
 import static com.task.project3.impl.ProjectThreeUtil.weinerProcess;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.IntStream;
 
 import org.apache.commons.math3.random.HaltonSequenceGenerator;
 
@@ -43,15 +40,15 @@ public class ProjectThreeSolver {
 	    double e1 = 0;
 	    double e2 = 0;
 	    double e3 = 0;
-	    int n = 1000000;
+	    int n = 10000;
 	    double t1 = 2;
 	    double t2 = 3;
-	    double dt = 0.001;
+	    double dt = 0.004;
 	    for (int i = 0; i < n; i++) {
 	      double y = q1stochasticProcessY(t1, dt);
 	      if (y > 5) p += 1.0/n;
 	      double x = q1stochasticProcessX(t1, dt);
-	      e1 += Math.pow(x, 1.0/3) * dt / t1;
+	      e1 += Math.pow(Math.abs(x), 1.0/3) * (Math.abs(x)/x) * dt / t1;
 	      e3 += (x*y*(x > 1 ? 1 : 0)) * dt / t1;
 	      e2 += q1stochasticProcessY(t2, dt) * dt / t2;
 	    }
@@ -64,10 +61,10 @@ public class ProjectThreeSolver {
 		double e1 = 0;
         double e2 = 0;
         double dt = 0.004; // time-step
-        Map<Double, Double> dw = weinerProcess(dt, 3);
-        Map<Double, Double> dz = weinerProcess(dt, 3);
+        double[] dw = weinerProcess(3, dt);
+        double[] dz = weinerProcess(3, dt);
         double x1 = q2StochasticProcessX(1, dt, dw, dz);
-        double y1 = q2StochasticProcessY(1, dw, dz);
+        double y1 = q2StochasticProcessY(1, dt, dw, dz);
         for (double i = dt; i <= 3; i += dt) {
             e1 += Math.pow(1 + q2StochasticProcessX(i, dt, dw, dz), 1.0 / 3) * dt;
             e2 += x1 * y1 * dt;
@@ -101,7 +98,7 @@ public class ProjectThreeSolver {
 
 	
 	public void ques4(Scanner reader) {
-		int days = 252;
+		double dt = 0.004;
 		int n = 10000;
 		double rho = -0.6;
 		double r = 0.03;
@@ -113,19 +110,21 @@ public class ProjectThreeSolver {
 		
 		boolean keepExecuting = true;
 		while(keepExecuting) {
-			LOG.info("\nEnter K and T (in a single line separated by spaces): \n\n");
+			LOG.info("\n\nFollowing are the default model parameters rho = -0.6, r = 0.03, s0 = $48, v0 = 0.05, "
+					+ "sigma = 0.42, a = 5.8, b = 0.0625. Enter K and T (in a single line separated by spaces): \n\n");
 			try {
 				double k = reader.nextDouble();
 				double T = reader.nextDouble();
 				
-				StochasticVolatilityContext ctx = new StochasticVolatilityContext(rho, r, s0, v0, sigma, a, b, k, T, days, n);
+				StochasticVolatilityContext ctx = new StochasticVolatilityContext(rho, r, s0, v0, sigma, a, b, k, T, dt, n);
 				
 				LOG.info("\n Call option value using full truncation = " + stocVolAPI.callOptionFullTruncation(ctx)// NOSONAR 
 				+ "\n Call option value using partial truncation = " + stocVolAPI.callOptionPartialTruncation(ctx)
 				+ "\n Call option value using reflection = " + stocVolAPI.callOptionReflection(ctx));
 				keepExecuting = false;
 			} catch (Exception ex) {
-				LOG.log(Level.WARNING, "Error in input, please try again", ex);
+				LOG.log(Level.SEVERE, "Error in input, exitting", ex);
+				keepExecuting = false;
 			}
 		}
 	}
@@ -139,8 +138,8 @@ public class ProjectThreeSolver {
 		int[] bases2 = {2, 4};
 		int[] wts = {1,1};
 		
-        HaltonSequenceGenerator halton1 = new HaltonSequenceGenerator(0, bases1, wts);
-        HaltonSequenceGenerator halton2 = new HaltonSequenceGenerator(0, bases2, wts);
+        HaltonSequenceGenerator halton1 = new HaltonSequenceGenerator(2, bases1, wts);
+        HaltonSequenceGenerator halton2 = new HaltonSequenceGenerator(2, bases2, wts);
         
         for(int i=0; i<100; i++) {
         	haltonSeq1[i] = halton1.nextVector();
@@ -157,7 +156,7 @@ public class ProjectThreeSolver {
 				LOG.info("\n\n1. Pseudo Random sequence"
 						+ "\n2. Halton sequence 1 (bases 2, 7)"
 						+ "\n3. Halton sequence 2 (bases 2, 4)"
-						+ "\nEnter any other character to exit");
+						+ "\nEnter any other number to exit");
 				int input = reader.nextInt();
 				switch(input) {
 				case 1:
@@ -165,24 +164,25 @@ public class ProjectThreeSolver {
 					data = new LinkedList<>();
 					data.add(seq[0]);
 					data.add(seq[1]);
-					plotAPI.plotMultiLine("Pseduo Random Sequence", appTitle, data, List.of("Seq1, Seq2"), "", "n");
+					plotAPI.plotMultiLine("Pseduo Random Sequence", appTitle, data, List.of("Seq1", "Seq2"), "", "n");
 					break;
 				case 2:
 					seq = GeneralHelper.transpose(haltonSeq1);
 					data = new LinkedList<>();
 					data.add(seq[0]);
 					data.add(seq[1]);
-					plotAPI.plotMultiLine("Halton Sequence 1", appTitle, data, List.of("Base 2, Base 7"), "", "n");
+					plotAPI.plotMultiLine("Halton Sequence 1", appTitle, data, List.of("Base 2", "Base 7"), "", "n");
 					break;
 				case 3:
 					seq = GeneralHelper.transpose(haltonSeq2);
 					data = new LinkedList<>();
 					data.add(seq[0]);
 					data.add(seq[1]);
-					plotAPI.plotMultiLine("Halton Sequence 2", appTitle, data, List.of("Base 2, Base 4"), "", "n");
+					plotAPI.plotMultiLine("Halton Sequence 2", appTitle, data, List.of("Base 2", "Base 4"), "", "n");
 					break;
 				}
 			} catch(Exception ex) {
+				ex.printStackTrace();
 				LOG.info("Opted to exit, going back to project 3");
 				keepExecuting = false;
 			}
@@ -207,24 +207,26 @@ public class ProjectThreeSolver {
 	    return y;
 	  }
 	
-    private double q2StochasticProcessX(double t, double precision, Map<Double, Double> dw, Map<Double, Double> dz) {
+    private double q2StochasticProcessX(double t, double precision, double[] dw, double[] dz) {
         double x = 1;
         double dt = precision; // time-step
+        int ct = 0;
         for (double i = dt; i <= t; i += dt) {
-            x += (x / 4) * dt + (x / 3) * dw.get(i) - (3 * x / 4) * dz.get(i);
+            x += (x / 4) * dt + (x / 3) * dw[ct] - (3 * x / 4) * dz[ct];
+            ct++;
         }
         return x;
     }
     
-    private double q2StochasticProcessY(double t, Map<Double, Double> dw, Map<Double, Double> dz) {
-        double W_t = getWeiner(dw, t);
-        double Z_t = getWeiner(dz, t);
+    private double q2StochasticProcessY(double t, double dt, double[] dw, double[] dz) {
+        double W_t = getWeiner(dw, t, dt);
+        double Z_t = getWeiner(dz, t, dt);
         return Math.exp(-0.08 * t + (W_t / 3) + (3 * Z_t / 4));
     }	
     
     private void q3PlotGreeks(Scanner reader) {
 		boolean keepExecuting;
-		LOG.info("\nThis segment will plot the sensitivities againt stock prices. Following are the model inputs: K = 20, sigma = 0.25, r = 0.05 and T = 0.5. S goes from 15-25. What do you want to plot?");
+		LOG.info("\n\nThis segment will plot the sensitivities againt stock prices. Following are the model inputs: K = 20, sigma = 0.25, r = 0.05 and T = 0.5. S goes from 15-25. What do you want to plot?");
 		keepExecuting = true;
 		while(keepExecuting) {
 	        double K = 20; // strike price

@@ -1,9 +1,5 @@
 package com.task.project3.impl;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.math3.distribution.NormalDistribution;
 
 import lombok.AccessLevel;
@@ -15,27 +11,25 @@ public class ProjectThreeUtil {
 	private static final NormalDistribution NORMAL = new NormalDistribution();
 
 	public static double weinerProcess(double t) {
-		return NORMAL.inverseCumulativeProbability(Math.random()) * Math.sqrt(t);
+		return NORMAL.sample() * Math.sqrt(t);
 	}
 
-	public static Map<Double, Double> weinerProcess(double t, double timeStep) {
+	public static double[] weinerProcess(double t, double timeStep) {
 		int n = (int) (t / timeStep);
-		Map<Double, Double> weiners = new HashMap<>();
 		double[] dw = NORMAL.sample(n);
-		for (int i = 1; i < n; i++) {
-			weiners.put(timeStep * i, dw[i] * Math.sqrt(timeStep));
+		for (int i = 0; i < n; i++) {
+			dw[i] = dw[i] * Math.sqrt(timeStep);
 		}
-		return weiners;
+		return dw;
 	}
 
-	public static double getWeiner(Map<Double, Double> dw, double t) {
-		Collection<Double> timeSteps = dw.keySet();
+	public static double getWeiner(double[] dw, double T, double timeStep) {
 		double w = 0;
-		double stepCount = 0;
-		for (Double dt : timeSteps) {
-			w += dw.get(dt);
-			stepCount += dt;
-			if (stepCount == t) {
+		double t = 0;
+		for(int i=0; i<dw.length; i++) {
+			w += dw[i];
+			t += timeStep;
+			if (t>=T) {
 				return w;
 			}
 		}

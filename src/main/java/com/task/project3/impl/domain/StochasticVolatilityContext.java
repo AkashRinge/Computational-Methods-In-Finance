@@ -15,6 +15,6 @@ public class StochasticVolatilityContext {
 	 private double b; 
 	 private double K; 
 	 private double T;
-	 private int numSteps;
-	 private int numPaths;
+	 private double timeStep;
+	 private int numOfSimulations;
 }
