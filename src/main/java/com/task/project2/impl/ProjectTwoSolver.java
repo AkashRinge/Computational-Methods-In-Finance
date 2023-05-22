@@ -113,7 +113,7 @@ public class ProjectTwoSolver {
 
 		double expectedCall = mcCallApi.callOption(s0, k, r, sigma, T, n);
 
-		double expectedCall2 = mcCallApi.callOptionAntithetic(s0, k, r, sigma, expectedCall, n);
+		double expectedCall2 = mcCallApi.callOptionAntithetic(s0, k, r, sigma, T, n);
 
 		double bsCall = bsApi.calculateCallOptionValue(s0, k, r, T, sigma);
 		
@@ -143,15 +143,19 @@ public class ProjectTwoSolver {
 		data.add(expSt);
 		seriesNames.add("E(St)");
 
-		double[][] expStPaths = new double[6][1000];
+		double[][] expStPaths = new double[6][1001];
 		double timeStep = 10.0/1000;
-		for (int i = 1; i <= 1000; i++) {
+		for (int i = 0; i <= 1000; i++) {
 			for (int j = 0; j < 6; j++) {
-				if (i == 1) {
+				if (i == 0) {
 					data.add(expStPaths[j]);
 					seriesNames.add("Path " + j);
+					expStPaths[j][i] = s0; 
 				}
-				expStPaths[j][i - 1] = stSimulation.run(i * timeStep);
+				else {
+					double w = stdWeiner(timeStep);
+					expStPaths[j][i] = expStPaths[j][i-1] *   Math.exp(sigma * w + (r - (sigma * sigma) / 2) * timeStep);
+				}
 			}
 		}
 		

@@ -31,8 +31,8 @@ public class MCCallOptionSimulatorImpl implements MCCallOptionSimulatorAPI {
 		MCOperation<Double> callAntithetic = t -> {
 			double w1 = stdWeiner(t);
 			double w2 = 0 - w1;
-			double st1 = s0 * Math.exp(sigma * w1 + (r * t - sigma * sigma * t / 2));
-			double st2 = s0 * Math.exp(sigma * w2 + (r * t - sigma * sigma * t / 2));
+			double st1 = s0 * Math.exp(sigma * w1 + (r * t - (sigma * sigma * t) / 2));
+			double st2 = s0 * Math.exp(sigma * w2 + (r * t - (sigma * sigma * t) / 2));
 			double payoff1 = Math.max(0, st1 - k);
 			double payoff2 = Math.max(0, st2 - k);
 			double payoff = payoff1 * 0.5 + payoff2 * 0.5;
